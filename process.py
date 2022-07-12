@@ -4,6 +4,7 @@ from typing import Dict
 from greenery import fsm, lego
 import re
 import numpy
+import FSMState
 
 UC = set(chr(e) for e in range(48,(2**7)-1,1))
 UC_NUMBERS = set(chr(e) for e in range(48,58,1))
