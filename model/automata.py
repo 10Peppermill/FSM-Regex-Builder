@@ -78,7 +78,7 @@ class NondeterministicFiniteAutomata(Automata):
             else:
                 raise ValueError(f'Invalid transition map')
 
-    def __transition_function__(self):
+    def transition_function(self):
         delta = []
         #Not implemented
         #for state in self.Q:
