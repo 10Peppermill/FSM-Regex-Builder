@@ -62,7 +62,7 @@ class Automata:
             pass
 
 class NondeterministicFiniteAutomata(Automata):
-    def __init__(self, Epsilon: set, Q: set, q_0, F: set) -> None:
+    def __init__(self, Epsilon:set[str] = {}, Q:set[State] = {}, q_0:State = None, F: set[State] = {}):
         super().__init__(Epsilon, Q, q_0, F)
         pass
 
