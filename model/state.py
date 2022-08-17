@@ -1,6 +1,6 @@
-from transition import Transition
+from model.transition import Transition
 class State:
-    def __init__(self, label:str, transitions:set[Transition]):
+    def __init__(self, label:str, transitions:set[Transition] = {}):
         self.label:str = label
         self.transitions:set[Transition] = transitions
     

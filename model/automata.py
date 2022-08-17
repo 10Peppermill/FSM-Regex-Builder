@@ -1,80 +1,80 @@
-from abc import abstractmethod
-from state import State
-from transition import Transition
+from abc import abstractmethod, ABC
+from model.state import State
+from model.transition import Transition
 
-class Automata:
-    def __init__(self, Epsilon:set[str], Q:set[State], q_0:State, F:set[State]) -> None:
-        self.Epsilon = Epsilon
-        self.Q = Q
-        self.q_0 = q_0
-        self.F = F
-
-        @property
-        def Epsilon(self):
-            return self.__Epsilon
-        
-        @Epsilon.setter
-        def Epsilon(self, value:set[str]):
-            valid = True
-            if(valid):
-                self.__Epsilon = value
-            else:
-                raise ValueError(f'Invalid Alphabet')
-        
-        @property
-        def Q(self):
-            return self.__Q
-        
-        @Q.setter
-        def Q(self, value:set[State]):
-            valid = True
-            if(valid):
-                self.__Q = value
-            else:
-                raise ValueError(f'Invalid set of states')
-
-        @property
-        def q_0(self):
-            return self.__q_0
-        
-        @q_0.setter
-        def q_0(self, value:State):
-            valid = True
-            if(valid):
-                self.__q_0 = value
-            else:
-                raise ValueError(f'Invalid start state')
-            
-        @property
-        def F(self):
-            return self.__F
-        
-        @F.setter
-        def F(self, value:set[State]):
-            valid = True
-            if(valid):
-                self.__F = value
-            else:
-                raise ValueError(f'Invalid set of final states')
-
-        @abstractmethod
-        def __transition_function__(self):
-            pass
-
-class NondeterministicFiniteAutomata(Automata):
-    def __init__(self, Epsilon:set[str] = {}, Q:set[State] = {}, q_0:State = None, F: set[State] = {}):
-        super().__init__(Epsilon, Q, q_0, F)
+class Automata(ABC):
+    def __init__(self, symbol_Epsilon:set[str] = set(), symbol_Q:set[State] = set(), symbol_q_0:State = None, symbol_F:set[State] = set()) -> None:
+        self.symbol_Epsilon = symbol_Epsilon
+        self.symbol_Q = symbol_Q
+        self.symbol_q_0 = symbol_q_0
+        self.symbol_F = symbol_F
         pass
 
-        @property
-        def delta(self):
-            return self.__delta
-        
-        @delta.setter
-        def delta(self, value):
+    def add_state(self, label:str):
+        new_state = State(label=label)
+        self.symbol_Q.add(new_state)   
+    def get_states(self):
+        return {state.label for state in self.__symbol_Q}
+    @abstractmethod
+    def transition_function(self):
+        pass
+
+    @property
+    def symbol_Epsilon(self):
+            return self.__symbol_Epsilon
+    @symbol_Epsilon.setter
+    def symbol_Epsilon(self, value:set[str]):
             valid = True
             if(valid):
-                self.__delta = value
+                self.__symbol_Epsilon = value
+            else:
+                raise ValueError(f'Invalid Alphabet')
+    @property
+    def symbol_Q(self):
+        return self.__symbol_Q
+    @symbol_Q.setter
+    def symbol_Q(self, value:set[State]):
+            valid = True
+            if(valid):
+                self.__symbol_Q:set = value
+            else:
+                raise ValueError(f'Invalid set of states')
+    @property
+    def symbol_q_0(self):
+            return self.__symbol_q_0  
+    @symbol_q_0.setter
+    def symbol_q_0(self, value:State):
+            valid = True
+            if(valid):
+                self.__symbol_q_0 = value
+            else:
+                raise ValueError(f'Invalid start state')      
+    @property
+    def symbol_F(self):
+            return self.__symbol_F
+    @symbol_F.setter
+    def symbol_F(self, value:set[State]):
+            valid = True
+            if(valid):
+                self.__symbol_F = value
+            else:
+                raise ValueError(f'Invalid set of final states')
+    
+    
+class NondeterministicFiniteAutomata(Automata):
+    def __init__(self, symbol_Epsilon:set[str] = set(), symbol_Q:set[State] = set(), symbol_q_0:State = None, symbol_F: set[State] = set()):
+        super().__init__(symbol_Epsilon, symbol_Q, symbol_q_0, symbol_F)
+        pass
+
+    @property
+    def symbol_delta(self):
+            return self.__symbol_delta
+    
+    @symbol_delta.setter
+    def symbol_delta(self, value):
+            valid = True
+            if(valid):
+                self.__symbol_delta = value
             else:
                 raise ValueError(f'Invalid transition map')
 
@@ -89,4 +89,4 @@ class NondeterministicFiniteAutomata(Automata):
         delta.append(('q1','q1','0,1'))
         delta.append(('q1','q2','1'))
         delta.append(('q2','q3','0,1'))
-        self.delta = delta
+        self.symbol_delta = delta

@@ -1,6 +1,5 @@
-from state import State
 class Transition:
-    def __init__(self, target:State, input:set[str]):
+    def __init__(self, target:str, input:set[str]):
         self.target = target
         self.input = input
     
@@ -9,7 +8,7 @@ class Transition:
         return self.__target
     
     @target.setter
-    def target(self, value:State):
+    def target(self, value:str):
         valid = True
         if(valid):
             self.__target = value

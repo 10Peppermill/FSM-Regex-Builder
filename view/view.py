@@ -19,7 +19,20 @@ class MainView(ttk.Frame):
 
         input = InputView(labelframeinput)
         output = OutputView(labelframeoutput)
+
+        self.input = input
+        self.output = output
         self.pack(padx=20, pady=20)
+        
+    def set_controller(self, controller):
+        """
+        Set the controller
+        :param controller:
+        :return:
+        """
+        self.controller = controller
+        self.input.controller = controller
+        self.output.controller = controller
 
 class InputView(ttk.Frame):
     def __init__(self, parent):
@@ -79,37 +92,22 @@ class InputView(ttk.Frame):
         print(self.Epsilon_var.get())
         pass
     def add_state_click(self):
-        print("add state")
-        pass
+        if self.controller:
+            self.controller.add_state("q_0")
     def set_start_click(self):
         print("set start")
         pass
     def set_final_click(self):
         print("set final")
         pass
-
     def build_click(self):
-        print("build")
-        #graphiz test
-        f = graphviz.Digraph('finite_state_machine', filename='fsm')
-        f.attr(rankdir='LR', size='8,5')
-
-        f.attr('node', shape='doublecircle')
-        f.node('LR_2')
+        if self.controller:
+            self.controller.build()
         
-
-        f.attr('node', shape='circle')
-        f.edge('LR_0', 'LR_0', label='0,1')
-        f.edge('LR_0', 'LR_1', label='1')
-        f.edge('LR_1', 'LR_2', label='0,1')
-
-
-        #f.view(filename="fsm.gv.png")
-        f.render(format='png')
+    def update_display(self, states):
+        self.Q_post["text"] = states
     def show_error(self, message):
         messagebox.showerror(title="error",message=message)
-
-
 
 class OutputView(ttk.Frame):
     def __init__(self, parent):
@@ -118,15 +116,9 @@ class OutputView(ttk.Frame):
         #create a Display
         self.display = DisplayView(parent)
 
-        #grahphiz
-
-        #add widgets
-        self.img = ImageTk.PhotoImage(Image.open('fsm.png'))
-        self.graph_diagram = Label(self.display,image=self.img)#.pack(side=LEFT, fill=BOTH, expand=True)
-        self.graph_diagram.grid(row=1,column=0, sticky=EW)
-
         self.regex = ttk.Label(self.display, text="{}",relief=SUNKEN)
         self.regex.grid(row=2, column=0, sticky=EW,pady=3)
+        
         #create a control
         self.control = ControlView(parent)
 
@@ -142,13 +134,18 @@ class OutputView(ttk.Frame):
 
         # set the controller
         self.controller = None
-
     def save_machine_click(self):
         print("save machine")
         pass
     def copy_regex_click(self):
         print("copy RegEx")
         pass
+    def update_diagram(self, image):
+        if self.control:
+            #add widgets
+            self.img = ImageTk.PhotoImage(Image.open(image))
+            self.graph_diagram = Label(self.display,image=self.img)#.pack(side=LEFT, fill=BOTH, expand=True)
+            self.graph_diagram.grid(row=1,column=0, sticky=EW)
 
 
     def show_error(self, message):
