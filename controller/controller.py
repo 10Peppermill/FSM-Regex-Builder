@@ -8,10 +8,20 @@ class Controller:
     
     def add_state(self, label:str):
         self.model.add_state(label = label)
-        self.view.input.update_display(self.model.get_states())
-        print(self.model.get_states())
-        
+        self.view.input.update_display("states", self.model.get_states())
+    
+    def del_state(self, label:str):
+        self.model.del_state(label = label)
+        self.view.input.update_display("states", self.model.get_states())
 
+    def set_alphabet(self, alphabet:str):
+        self.model.set_alphabet(alphabet)
+        self.view.input.update_display("alphabet",self.model.get_alphabet())
+
+    def set_inital(self, label:str):
+        self.model.set_inital(label)
+        state = self.model.get_inital().label
+        self.view.input.update_display("inital", state)
 
     def build(self):        
         #graphiz test

@@ -12,9 +12,28 @@ class Automata(ABC):
 
     def add_state(self, label:str):
         new_state = State(label=label)
-        self.symbol_Q.add(new_state)   
+        self.symbol_Q.add(new_state)
+
+    def del_state(self, label:str):
+        del_state = {state for state in self.__symbol_Q if state.label == label}.pop()
+        self.symbol_Q.remove(del_state)
+
     def get_states(self):
         return {state.label for state in self.__symbol_Q}
+
+    def set_alphabet(self, alphabet:str):
+        self.__symbol_Epsilon = {char for char in alphabet}
+
+    def get_alphabet(self):
+        return self.__symbol_Epsilon
+
+    def set_inital(self, label):
+        inital_state = {state for state in self.__symbol_Q if state.label == label}.pop()
+        self.__symbol_q_0 = inital_state
+
+    def get_inital(self):
+        return self.__symbol_q_0
+
     @abstractmethod
     def transition_function(self):
         pass
