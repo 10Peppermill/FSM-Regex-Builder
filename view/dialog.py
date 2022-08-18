@@ -31,16 +31,13 @@ class CustomDialogDrop(tk.Toplevel):
 
         self.var = tk.StringVar()
 
-        self.label = tk.Label(self, text=prompt)
-
         options = [x.replace("'", "") for x in options[1:-1].split(sep=",")]
         for option in options:
             self.checkbox = tk.Checkbutton(self, text=option)
-            self.checkbox.pack()
-            
-        
-        self.entry = tk.Entry(self, textvariable=self.var)
+            self.checkbox.pack()    
 
+        self.label = tk.Label(self, text=prompt)
+        self.entry = tk.Entry(self, textvariable=self.var)
         self.ok_button = tk.Button(self, text="OK", command=self.on_ok)
 
         self.label.pack(side="top", fill="x")
@@ -48,7 +45,7 @@ class CustomDialogDrop(tk.Toplevel):
         self.ok_button.pack(side="right")
 
         self.entry.bind("<Return>", self.on_ok)
-
+ 
     def on_ok(self, event=None):
         self.destroy()
 

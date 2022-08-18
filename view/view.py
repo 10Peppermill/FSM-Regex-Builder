@@ -124,10 +124,18 @@ class InputView(ttk.Frame):
             self.controller.set_inital(intal_state)
         pass
     def set_final_click(self):
-        print("set final")
+        if self.controller:
+            states = self.Q_post["text"]
+            finals = CustomDialogDrop(root, "Pick an inital state", states).show()
+            self.controller.set_finals(finals)
         pass
     def build_click(self):
         if self.controller:
+            self.controller.create_transition('q0', '0,1', 'q0')
+            self.controller.create_transition('q0', '1', 'q1')
+            self.controller.create_transition('q1', '0,1', 'q2')
+            self.controller.create_transition('q2', '0', 'q0')
+            self.controller.create_transition('q2', '1', 'q1')
             self.controller.build()
         
     def update_display(self, widget:str ,value):

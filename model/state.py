@@ -1,9 +1,12 @@
 from model.transition import Transition
 class State:
-    def __init__(self, label:str, transitions:set[Transition] = {}):
+    def __init__(self, label:str, transitions = set()):
         self.label:str = label
-        self.transitions:set[Transition] = transitions
+        self.transitions = transitions
     
+    def add_transition(self, input:str, target):
+        self.transitions.add(Transition(input=input, target=target))
+
     @property
     def label(self):
         return self.__label

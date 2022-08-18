@@ -19,7 +19,7 @@ class Automata(ABC):
         self.symbol_Q.remove(del_state)
 
     def get_states(self):
-        return {state.label for state in self.__symbol_Q}
+        return self.__symbol_Q
 
     def set_alphabet(self, alphabet:str):
         self.__symbol_Epsilon = {char for char in alphabet}
@@ -34,8 +34,31 @@ class Automata(ABC):
     def get_inital(self):
         return self.__symbol_q_0
 
+    def set_finals(self,states:list[str]):
+        self.__symbol_F = {state for state in self.__symbol_Q if state.label in states}
+    
+    def get_finals(self):
+        return self.__symbol_F
+
+    def add_transition(self, from_state, inputs, target_state):
+        test = {state for state in self.__symbol_Q if state.label == from_state}
+        f_state = {state for state in self.__symbol_Q if state.label == from_state}.pop()
+        t_target = {state for state in self.__symbol_Q if state.label == target_state}.pop()
+        f_state.add_transition(inputs, t_target)
+
+    def print_transtions(self):
+        for state in self.__symbol_Q:
+            for tansition in state.transitions:
+                s = f'{state.label}' + tansition.__str__()
+                print(s)
+            
+
     @abstractmethod
     def transition_function(self):
+        pass
+    
+    @abstractmethod
+    def graph_builder(self):
         pass
 
     @property
@@ -109,3 +132,6 @@ class NondeterministicFiniteAutomata(Automata):
         delta.append(('q1','q2','1'))
         delta.append(('q2','q3','0,1'))
         self.symbol_delta = delta
+    def graph_builder(self):
+        return super().graph_builder()
+        

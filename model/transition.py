@@ -3,6 +3,9 @@ class Transition:
         self.target = target
         self.input = input
     
+    def __str__(self):
+        return f'on input <{self.input}> -> {self.target.label}'
+
     @property
     def target(self):
         return self.__target
